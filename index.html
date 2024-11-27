@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capture d'écran de la page</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <h1>Capture d'écran</h1>
+    <p>Cette page sera capturée si vous êtes inactif pendant 5 secondes.</p>
+    <button id="download">Télécharger la capture</button>
+
+    <script>
+        let inactivityTimeout;
+
+        const startInactivityTimer = () => {
+            
+            clearTimeout(inactivityTimeout);
+
+       
+            inactivityTimeout = setTimeout(() => {
+                html2canvas(document.body).then(canvas => {
+                    
+                    const link = document.createElement('a');
+                    link.href = canvas.toDataURL('image/png');
+                    link.download = 'capture.png';
+                    link.click();
+                });
+            }, 5000); 
+        };
+
+        
+        window.addEventListener('mousemove', startInactivityTimer);
+        window.addEventListener('keydown', startInactivityTimer);
+
+        
+        startInactivityTimer();
+    </script>
+</body>
+</html>
